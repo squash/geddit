@@ -24,7 +24,7 @@ type LoginSession struct {
 	password  string
 	useragent string
 	cookie    *http.Cookie
-	modhash   string `json:"modhash"`
+	modhash   string 
 	Session
 }
 

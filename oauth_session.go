@@ -9,6 +9,7 @@ import (
 	"errors"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"net/url"
 	"strconv"
@@ -162,7 +163,7 @@ func (o *OAuthSession) getBody(link string, d interface{}) error {
 	}
 
 	if o.Client == nil {
-		return errors.New("OAuth Session lacks HTTP client! Use func (o OAuthSession) LoginAuth() to make one.")
+		return errors.New(" OAuth Session lacks HTTP client! Use func (o OAuthSession) LoginAuth() to make one")
 	}
 
 	// Throttle request
@@ -386,7 +387,7 @@ func (o *OAuthSession) postBody(link string, form url.Values, d interface{}) err
 	req.PostForm = form
 
 	if o.Client == nil {
-		return errors.New("OAuth Session lacks HTTP client! Use func (o OAuthSession) LoginAuth() to make one.")
+		return errors.New(" - OAuth Session lacks HTTP client! Use func (o OAuthSession) LoginAuth() to make one")
 	}
 
 	// Throttle request
@@ -556,7 +557,10 @@ func (o OAuthSession) Reply(r Replier, comment string) (*Comment, error) {
 		}
 		return nil, errors.New(strings.Join(msg, ", "))
 	}
-
+	if len(res.JSON.Data.Things)==0 {
+		log.Printf("%#v", res)
+		return nil, errors.New("res.JSON.Data.Things is too short")
+	}
 	c := makeComment(res.JSON.Data.Things[0].Data)
 
 	return c, nil
