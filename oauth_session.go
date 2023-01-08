@@ -471,7 +471,8 @@ func (o *OAuthSession) SubredditSubmissions(subreddit string, sort PopularitySor
 		return nil, err
 	}
 
-	baseUrl := "https://oauth.reddit.com"
+//	baseUrl := "https://oauth.reddit.com"
+	baseUrl := "https://old.reddit.com"
 
 	// If subbreddit given, add to URL
 	if subreddit != "" {
