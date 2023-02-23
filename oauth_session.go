@@ -406,7 +406,7 @@ func (o *OAuthSession) postBody(link string, form url.Values, d interface{}) err
 	if err != nil {
 		return err
 	}
-
+	log.Printf("JSON response: %s", body)
 	// The caller may want JSON decoded, or this could just be an update/delete request.
 	if d != nil {
 		err = json.Unmarshal(body, d)
