@@ -8,8 +8,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"io/ioutil"
-	"log"
+	"io"
 	"net/http"
 	"net/url"
 	"strconv"
@@ -177,12 +176,10 @@ func (o *OAuthSession) getBody(link string, d interface{}) error {
 	}
 	defer resp.Body.Close()
 
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return err
 	}
-	log.Printf("Code: %d", resp.StatusCode)
-	log.Printf("Response: %s", body)
 	if err := json.Unmarshal(body, d); err != nil {
 		return err
 	}
@@ -402,7 +399,7 @@ func (o *OAuthSession) postBody(link string, form url.Values, d interface{}) err
 		return err
 	}
 	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return err
 	}
@@ -559,7 +556,6 @@ func (o OAuthSession) Reply(r Replier, comment string) (*Comment, error) {
 		return nil, errors.New(strings.Join(msg, ", "))
 	}
 	if len(res.JSON.Data.Things)==0 {
-		log.Printf("%#v", res)
 		return nil, errors.New("res.JSON.Data.Things is too short")
 	}
 	c := makeComment(res.JSON.Data.Things[0].Data)

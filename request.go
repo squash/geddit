@@ -7,7 +7,7 @@ package geddit
 import (
 	"bytes"
 	"errors"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"net/url"
 )
@@ -50,7 +50,7 @@ func (r request) getResponse() (*bytes.Buffer, error) {
 		return nil, errors.New(resp.Status)
 	}
 
-	respbytes, err := ioutil.ReadAll(resp.Body)
+	respbytes, err :=io.ReadAll(resp.Body)
 	if err != nil {
 		return nil, err
 	}
